@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  database:
+    image: postgres:10
+    container_name: "demopostgres"
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresdata:/var/lib/postgresql/data
+  wildfly:
+    image: jboss/wildfly:latest
+    container_name: "demowildfly"
+    ports:
+      - 8080:8080
+    volumes:
+      - ./deployments:/opt/jboss/wildfly/standalone/deployments
+    depends_on:
+      - database
